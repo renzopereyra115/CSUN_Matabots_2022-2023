@@ -16,14 +16,14 @@ controller Controller1 = controller(primary);
 // motor configurations
 // motor(port#, cartridge, reverse true or false)
 // blue motor ratio6_1, red motor ratio36_1, green motor ratio18_1
-motor LeftFront = motor(PORT1, ratio6_1, false);
+motor LeftFront = motor(PORT20, ratio6_1, false);
 motor LeftRear = motor(PORT2, ratio36_1, false);
-motor RightFront = motor(PORT3, ratio18_1, true);
+motor RightFront = motor(PORT11, ratio18_1, true);
 motor RightRear = motor(PORT4, ratio18_1, true);
 motor arm = motor(PORT5, ratio18_1, true);
 float WheelCircumference = (4.0 * 3.14159265); //Diameter of wheel * Pi
 float RevToAngle = (1/93); // 1 revolution turns 93 degrees
-int TurningSpeed = 45;
+double TurningSpeed = 45;
 
 
 /*---------------------------------------------------------------------------*/
@@ -56,42 +56,40 @@ void pre_auton(void) {
 /*---------------------------------------------------------------------------*/
 void goFwd(float distance, int speed){
     float MotorDegrees = (distance /WheelCircumference)* 360;
-    leftFront.spin(fwd,MotorDegrees,deg,speed,pct,false);
-    leftRear.spin(fwd,MotorDegrees,deg,speed,pct,false);
-    rightFront.spin(fwd,MotorDegrees,deg,speed,pct,false);
-    rightRear.spin(fwd,MotorDegrees,deg,speed,pct);
+    LeftFront.startRotateFor(directionType::fwd,MotorDegrees,rotationUnits::deg,speed,velocityUnits::pct);
+    RightFront.rotateFor(directionType::fwd,MotorDegrees,rotationUnits::deg,speed,velocityUnits::pct);
 }
 void goBack(float distance, int speed){
     float MotorDegrees = (distance /WheelCircumference)* 360;
-    leftFront.spin(rev,MotorDegrees,deg,speed,pct,false);
-    leftRear.spin(rev,MotorDegrees,deg,speed,pct,false);
-    rightFront.spin(rev,MotorDegrees,deg,speed,pct,false);
-    rightRear.spin(rev,MotorDegrees,deg,speed,pct);
+    LeftFront.startRotateFor(directionType::rev,MotorDegrees,rotationUnits::deg,speed,velocityUnits::pct);
+    RightFront.rotateFor(directionType::rev,MotorDegrees,rotationUnits::deg,speed,velocityUnits::pct);
 }
 void turnLeft(float degrees){
     //turn MotorDegrees into RobotDegrees by testing
     float NumberOfDegrees = degrees * RevToAngle * 360;
-    leftFront.spin(rev,NumberOfDegrees,def,TurningSpeed,pct, false);
-    leftRear.spin(rev,NumberOfDegrees,def,TurningSpeed,pct, false);
-    rightFront.spin(fwd,NumberOfDegrees,def,TurningSpeed,pct, false);
-    rightRear.spin(fwd,NumberOfDegrees,def,TurningSpeed,pct);
+    LeftRear.spinFor(directionType::rev,NumberOfDegrees,rotationUnits::deg,TurningSpeed,velocityUnits::pct, false);
+    LeftRear.spinFor(directionType::rev,NumberOfDegrees,rotationUnits::deg,TurningSpeed,velocityUnits::pct, false);
+    RightFront.spinFor(directionType::fwd,NumberOfDegrees,rotationUnits::deg,TurningSpeed,velocityUnits::pct, false);
+    RightRear.spinFor(directionType::fwd,NumberOfDegrees,rotationUnits::deg,TurningSpeed,velocityUnits::pct);
 }
 void turnRight(float degrees){
     //turn MotorDegrees into RobotDegrees by testing
-    float NumberOfDegrees = degrees * RevToAngle * 360;
-    leftFront.spin(fwd,NumberOfDegrees,def,TurningSpeed,pct, false);
-    leftRear.spin(fwd,NumberOfDegrees,def,TurningSpeed,pct, false);
-    rightFront.spin(rev,NumberOfDegrees,def,TurningSpeed,pct, false);
-    rightRear.spin(rev,NumberOfDegrees,def,TurningSpeed,pct);
+    double NumberOfDegrees = degrees * RevToAngle * 360;
+    LeftFront.spinFor(directionType::fwd, NumberOfDegrees,rotationUnits::deg,TurningSpeed, velocityUnits::pct, false);
+    LeftRear.spinFor(directionType::fwd,NumberOfDegrees,rotationUnits::deg,TurningSpeed,velocityUnits::pct, false);
+    RightFront.spinFor(directionType::rev,NumberOfDegrees,rotationUnits::deg,TurningSpeed,velocityUnits::pct, false);
+    RightRear.spinFor(directionType::rev,NumberOfDegrees,rotationUnits::deg,TurningSpeed,velocityUnits::pct);
 }
 
 void autonomous(void) {
     //int counter = 1;
     //int power = 11200;
 
+    LeftFront.startRotateFor(directionType::fwd,260,rotationUnits::deg, 50, velocityUnits::pct);
+    RightFront.rotateFor(directionType::fwd,260,rotationUnits::deg, 50, velocityUnits::pct);
     //robot1.fly1.move_voltage(power);
-    goBack(10,50); //Go back 10 inches at a speed of 50
-
+    goFwd(10,50);
+    goBack(10,50);
 }
 
 /*---------------------------------------------------------------------------*/
