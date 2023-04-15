@@ -90,7 +90,8 @@ void autonomous(void) {
     //int power = 11200;
 
     //robot1.fly1.move_voltage(power);
-    goFwd(10,50); //Go forward 10 inches at a speed of 50
+    goBack(10,50); //Go back 10 inches at a speed of 50
+
 }
 
 /*---------------------------------------------------------------------------*/
