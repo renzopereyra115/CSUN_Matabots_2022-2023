@@ -88,8 +88,8 @@ void autonomous(void) {
     LeftFront.startRotateFor(directionType::fwd,260,rotationUnits::deg, 50, velocityUnits::pct);
     RightFront.rotateFor(directionType::fwd,260,rotationUnits::deg, 50, velocityUnits::pct);
     //robot1.fly1.move_voltage(power);
-    goFwd(10,50);
-    goBack(10,50);
+    LeftFront.spin(fwd,50,velocityUnits::pct);
+    RightFront.spin(fwd,50,velocityUnits::pct);
 }
 
 /*---------------------------------------------------------------------------*/
